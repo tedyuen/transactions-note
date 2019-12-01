@@ -2,7 +2,7 @@
  * @Author: Ted Yuen 
  * @Date: 2019-12-01 10:51:10 
  * @Last Modified by: Ted Yuen
- * @Last Modified time: 2019-12-01 22:30:21
+ * @Last Modified time: 2019-12-01 23:53:28
  * @Desc: 交易记录
  */
 import mongoose from 'mongoose'
@@ -58,6 +58,11 @@ const SellRecords = new Schema({
 })
 // 买入记录
 const BuyRecords = new Schema({
+  // 用户id
+  userId: {
+    type: Schema.Types.ObjectId,
+    require: true
+  },
   // 证券公司id
   companyId: {
     type: Schema.Types.ObjectId,

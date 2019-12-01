@@ -2,13 +2,18 @@
  * @Author: Ted Yuen 
  * @Date: 2019-12-01 10:07:34 
  * @Last Modified by: Ted Yuen
- * @Last Modified time: 2019-12-01 23:25:57
+ * @Last Modified time: 2019-12-01 23:48:50
  * @Desc: 证券公司
  */
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const SecuritieCompany = new Schema({
+  // 用户id
+  userId: {
+    type: Schema.Types.ObjectId,
+    require: true
+  },
   // 证券公司名字
   name: {
     type: String,
