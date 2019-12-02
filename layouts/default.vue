@@ -1,55 +1,83 @@
 <template>
-  <div>
-    <nuxt />
-  </div>
+  <a-layout id="components-layout-demo-custom-trigger" class="layout-frame">
+    <a-layout-sider class="sider">
+      <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
+        <a-sub-menu key="sub1" @titleClick="titleClick">
+          <span slot="title">
+            <a-icon type="mail"/>
+            <span>券商资金</span>
+          </span>
+          <a-menu-item key="A1">券商列表</a-menu-item>
+          <a-menu-item key="A2">资金划转</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="sub2" @titleClick="titleClick">
+          <span slot="title">
+            <a-icon type="appstore"/>
+            <span>A股</span>
+          </span>
+          <a-menu-item key="B1">持仓查询</a-menu-item>
+          <a-menu-item key="B2">买卖记录</a-menu-item>
+          <a-menu-item key="B3">买卖利润</a-menu-item>
+          <a-menu-item key="B4">分红管理</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="sub4">
+          <span slot="title">
+            <a-icon type="setting"/>
+            <span>ETF</span>
+          </span>
+          <a-menu-item key="C1">持仓查询</a-menu-item>
+          <a-menu-item key="C2">买卖记录</a-menu-item>
+          <a-menu-item key="C3">买卖利润</a-menu-item>
+          <a-menu-item key="C4">分红管理</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="sub5">
+          <span slot="title">
+            <a-icon type="setting"/>
+            <span>账号</span>
+          </span>
+          <a-menu-item key="C1">登录账号</a-menu-item>
+          <a-menu-item key="C4">资金账号(未开发)</a-menu-item>
+        </a-sub-menu>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-content :style="{ margin: '16px 16px', background: '#fff', minHeight: '680px' }">
+        <nuxt/>
+      </a-layout-content>
+      <a-layout-footer style="textAlign: center">本系统纯技术交流、学习使用
+        <a href="https://github.com/tedyuen/transactions-note" target="_blank">开源</a>谢绝商用!!
+      </a-layout-footer>
+    </a-layout>
+  </a-layout>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+<script>
+export default {
+  data() {
+    return {
+      current: ["mail"],
+      openKeys: ["sub1"]
+    };
+  },
+  methods: {
+    handleClick(e) {
+      console.log("click", e);
+    },
+    titleClick(e) {
+      console.log("titleClick", e);
+    }
+  },
+  watch: {
+    openKeys(val) {
+      console.log("openKeys", val);
+    }
+  }
+};
+</script>
+<style lang="less">
+.layout-frame {
+  .sider {
+    min-height: 100vh;
+  }
 }
 </style>
