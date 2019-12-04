@@ -22,7 +22,7 @@
               </a-col>
               <a-col :span="24">
                 <a-form-item>
-                  <a-button type="primary">新增</a-button>
+                  <a-button type="primary" @click="()=>{this.$refs.editCompany.add();}">新增</a-button>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -68,12 +68,16 @@
         </a-table>
       </div>
     </a-card>
+    <edit-company ref="editCompany"/>
   </div>
 </template>
 
 <script>
+import EditCompany from "../components/company/EditCompany";
 export default {
-  components: {},
+  components: {
+    EditCompany
+  },
   data() {
     return {
       form: this.$form.createForm(this),

@@ -2,8 +2,10 @@
   "name": "transactions-note",
   "version": "1.0.0",
   "description": "基于vue，nuxt，koa2，ant-design-vue，mongodb，redis的一个股票买卖记录系统",
+  "keywords": ["vue","nuxt","koa2","ant-design-vue","mongodb"],
   "author": "Ted Yuen",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server --exec babel-node",
     "build": "nuxt build",
