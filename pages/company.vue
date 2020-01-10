@@ -15,14 +15,9 @@
                   <a-input v-decorator="['companyName']"/>
                 </a-form-item>
               </a-col>
-              <a-col :span="10">
-                <a-form-item label="证券公司名称">
-                  <a-input v-decorator="['companyName']"/>
-                </a-form-item>
-              </a-col>
               <a-col :span="24">
                 <a-form-item>
-                  <a-button type="primary" @click="()=>{this.$refs.editCompany.add();}">新增</a-button>
+                  <a-button type="primary" @click="()=>{this.$refs.editCompany.add(0);}">新增</a-button>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -48,6 +43,7 @@
           :columns="columns"
           :dataSource="data"
           bordered
+          rowKey="_id"
           :pagination="pagination"
           :locale="{emptyText:'暂无数据'}"
         >
@@ -125,8 +121,25 @@ export default {
       data: []
     };
   },
-  method: {
-    handleSearch() {}
+  methods: {
+    handleSearch(e) {
+      e.preventDefault();
+      this.getCompanyList();
+    },
+    async getCompanyList() {
+      let companyName = this.form.getFieldValue("companyName");
+      const {
+        status,
+        data: { list }
+      } = await this.$axios.get("/api/company/getAllCompanys", {
+        params: {
+          companyName
+        }
+      });
+      if (status === 200) {
+        this.data = list;
+      }
+    }
   }
 };
 </script>

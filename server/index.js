@@ -6,8 +6,10 @@ import mongoose from 'mongoose'
 import bodyParser from 'koa-bodyparser'
 import json from 'koa-json'
 import dbConfig from './dbs/config'
+import cors from 'koa2-cors'
 
 import companys from './interface/companys'
+import users from './interface/users'
 
 const app = new Koa()
 
@@ -19,6 +21,7 @@ mongoose.connect(dbConfig.dbs, {
   useNewUrlParser: true
 })
 
+app.use(cors());
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
@@ -42,6 +45,7 @@ async function start() {
   }
 
   app.use(companys.routes()).use(companys.allowedMethods())
+  app.use(users.routes()).use(users.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200

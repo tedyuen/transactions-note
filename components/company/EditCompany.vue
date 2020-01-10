@@ -19,7 +19,8 @@
                 v-decorator="['name',{
                     rules:[
                       {
-                        required: true
+                        required: true,
+                        message: '证券公司名不能为空'
                       }
                     ]
                   }
@@ -29,24 +30,32 @@
             </a-form-item>
             <a-form-item label="A股交易佣金费率">
               <a-input
+                :min="0"
+                :step="0.1"
+                type="number"
                 v-decorator="['stockCommissionRates',{
                     rules:[
                       {
-                        required: true
+                        required: true,
+                        message: 'A股交易佣金费率不能为空'
                       }
                     ]
                   }
                 ]"
-                addonAfter="万"
+                addonBefore="万"
                 placeholder="请输入佣金费率"
               />
             </a-form-item>
             <a-form-item label="A股交易最低佣金">
               <a-input
+                :min="0"
+                :step="0.1"
+                type="number"
                 v-decorator="['stockCinCommission',{
                     rules:[
                       {
-                        required: true
+                        required: true,
+                        message: 'A股交易佣金费率不能为空'
                       }
                     ]
                   }
@@ -57,24 +66,32 @@
             </a-form-item>
             <a-form-item label="ETF交易佣金费率">
               <a-input
+                :min="0"
+                :step="0.1"
+                type="number"
                 v-decorator="['etfCommissionRates',{
                     rules:[
                       {
-                        required: true
+                        required: true,
+                        message: 'A股交易佣金费率不能为空'
                       }
                     ]
                   }
                 ]"
-                addonAfter="万"
+                addonBefore="万"
                 placeholder="请输入佣金费率"
               />
             </a-form-item>
             <a-form-item label="ETF交易最低佣金">
               <a-input
+                :min="0"
+                :step="0.1"
+                type="number"
                 v-decorator="['etfCinCommission',{
                     rules:[
                       {
-                        required: true
+                        required: true,
+                        message: 'A股交易佣金费率不能为空'
                       }
                     ]
                   }
@@ -87,13 +104,13 @@
           <a-col :span="12">
             <a-form-item label="是否默认">
               <a-radio-group
-                :defaultValue="0"
                 v-decorator="['isDefault', {
                   rules: [
                     {
                       required :true
                     }
-                  ]
+                  ],
+                  initialValue: 0
                 }]"
               >
                 <a-radio :value="0">否</a-radio>
@@ -102,13 +119,13 @@
             </a-form-item>
             <a-form-item label="账户类型">
               <a-radio-group
-                :defaultValue="0"
                 v-decorator="['accountType', {
                   rules: [
                     {
                       required :true
                     }
-                  ]
+                  ],
+                  initialValue: 0
                 }]"
               >
                 <a-radio :value="0">普通账户</a-radio>
@@ -120,7 +137,8 @@
                 v-decorator="['financeRate',{
                     rules:[
                       {
-                        required: true
+                        required: form.getFieldValue('accountType')===1,
+                        message: 'A股交易佣金费率不能为空'
                       }
                     ]
                   }
@@ -131,13 +149,13 @@
             </a-form-item>
             <a-form-item label="沪市监管费(过户费)">
               <a-radio-group
-                :defaultValue="0"
                 v-decorator="['shTransferFee', {
                   rules: [
                     {
                       required :true
                     }
-                  ]
+                  ],
+                  initialValue: 0
                 }]"
               >
                 <a-radio :value="0">不收取</a-radio>
@@ -146,13 +164,13 @@
             </a-form-item>
             <a-form-item label="深市监管费(过户费)">
               <a-radio-group
-                :defaultValue="0"
                 v-decorator="['szTransferFee', {
                   rules: [
                     {
                       required :true
                     }
-                  ]
+                  ],
+                  initialValue: 0
                 }]"
               >
                 <a-radio :value="0">不收取</a-radio>
@@ -167,10 +185,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
+      state:0, // 0新增 1修改
       colOption: {
         label: {
           span: 6
@@ -184,15 +202,37 @@ export default {
       confirmLoading: false
     };
   },
-  props: {},
   methods: {
-    ...mapActions([]),
-    add() {
+    add(state) {
+      this.state = 0;
       this.visible = true;
     },
     /* 提交表单 */
-    handleOk() {
+    handleOk(e) {
       let self = this;
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+          this.addCompany(values)
+        }
+      });
+    },
+    async addCompany(values) {
+      const {
+        status,
+        data:{code,msg}
+      } = await this.$axios.post("/api/company/addCompany", {
+        ...values
+      });
+      if (status === 200) {
+        if(code === 0) {
+          this.$message.success(msg)
+          this.visible = false;
+        } else {
+          this.$message.error(msg)
+        }
+      }
     },
     /* 关闭modal框 */
     handleCancel() {

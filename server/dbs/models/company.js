@@ -17,6 +17,7 @@ const SecuritieCompany = new Schema({
   // 证券公司名字
   name: {
     type: String,
+    unique: true,
     require: true
   },
   // 是否默认 0:默认 1:不是默认
