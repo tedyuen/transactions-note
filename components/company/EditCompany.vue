@@ -188,7 +188,7 @@
 export default {
   data() {
     return {
-      state:0, // 0新增 1修改
+      state: 0, // 0新增 1修改
       colOption: {
         label: {
           span: 6
@@ -213,24 +213,24 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
-          this.addCompany(values)
+          console.log("Received values of form: ", values);
+          this.addCompany(values);
         }
       });
     },
     async addCompany(values) {
       const {
         status,
-        data:{code,msg}
+        data: { code, msg }
       } = await this.$axios.post("/api/company/addCompany", {
         ...values
       });
       if (status === 200) {
-        if(code === 0) {
-          this.$message.success(msg)
+        if (code === 0) {
+          this.$message.success(msg);
           this.visible = false;
         } else {
-          this.$message.error(msg)
+          this.$message.error(msg);
         }
       }
     },

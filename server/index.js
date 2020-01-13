@@ -20,6 +20,7 @@ app.use(json())
 mongoose.connect(dbConfig.dbs, {
   useNewUrlParser: true
 })
+// mongoose.set('useFindAndModify', false)
 
 app.use(cors());
 

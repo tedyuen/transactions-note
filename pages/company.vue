@@ -54,10 +54,10 @@
           <template slot="operation" slot-scope="text, record, index">
             <div class="editable-row-operations">
               <span>
-                <a @click="() => {}">设为默认</a>
-              </span>
-              <span>
                 <a @click="() => {}">编辑</a>
+              </span>
+              <span v-if="record.isDefault === 1">
+                <a @click="setDefault(record._id)">设为默认</a>
               </span>
             </div>
           </template>
@@ -121,11 +121,15 @@ export default {
       data: []
     };
   },
+  mounted() {
+    this.getCompanyList();
+  },
   methods: {
     handleSearch(e) {
       e.preventDefault();
       this.getCompanyList();
     },
+    // 获取列表
     async getCompanyList() {
       let companyName = this.form.getFieldValue("companyName");
       const {
@@ -138,6 +142,23 @@ export default {
       });
       if (status === 200) {
         this.data = list;
+      }
+    },
+    // 设为默认
+    async setDefault(_id) {
+      const {
+        status,
+        data: { code, msg }
+      } = await this.$axios.post("/api/company/setDefault", {
+        id: _id
+      });
+      if (status === 200) {
+        if (code === 0) {
+          this.$message.success(msg);
+          this.getCompanyList();
+        } else {
+          this.$message.error(msg);
+        }
       }
     }
   }

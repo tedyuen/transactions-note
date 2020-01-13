@@ -2,7 +2,7 @@
  * @Author: Ted Yuen 
  * @Date: 2019-12-01 23:25:19 
  * @Last Modified by: Ted Yuen
- * @Last Modified time: 2020-01-10 17:12:12
+ * @Last Modified time: 2020-01-13 22:00:23
  * @Desc: 证券公司接口
  */
 import Router from 'koa-router';
@@ -74,6 +74,42 @@ router.get('/getAllCompanys', async ctx => {
     ctx.body = {
       code: -1,
       list: []
+    }
+  }
+})
+
+/**
+ * 设置默认券商
+ */
+router.post('/setDefault', async ctx => {
+  try {
+    let _id = ctx.request.body.id;
+    let update = await Company.updateMany({}, { isDefault: 1 }).exec();
+    if (update.ok === 1) {
+      let setResult = await Company.updateOne({ _id: _id }, {
+        isDefault: 0
+      }).exec();
+      if (setResult.ok === 1) {
+        ctx.body = {
+          code: 0,
+          msg: '设置成功'
+        }
+      } else {
+        ctx.body = {
+          code: -1,
+          msg: '设置失败'
+        }
+      }
+    } else {
+      ctx.body = {
+        code: -1,
+        msg: '设置失败'
+      }
+    }
+  } catch (e) {
+    ctx.body = {
+      code: -1,
+      msg: '设置失败'
     }
   }
 })
