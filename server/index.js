@@ -10,6 +10,7 @@ import cors from 'koa2-cors'
 
 import companys from './interface/companys'
 import users from './interface/users'
+import capital from './interface/capital'
 
 const app = new Koa()
 
@@ -47,6 +48,7 @@ async function start() {
 
   app.use(companys.routes()).use(companys.allowedMethods())
   app.use(users.routes()).use(users.allowedMethods())
+  app.use(capital.routes()).use(capital.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200

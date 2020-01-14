@@ -10,7 +10,9 @@
           <a-menu-item key="A1">
             <nuxt-link to="/company">券商列表</nuxt-link>
           </a-menu-item>
-          <a-menu-item key="A2">资金划转</a-menu-item>
+          <a-menu-item key="A2">
+            <nuxt-link to="/capital">资金划转</nuxt-link>
+          </a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub2" @titleClick="titleClick">
           <span slot="title">

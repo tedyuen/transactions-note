@@ -2,11 +2,12 @@
  * @Author: Ted Yuen 
  * @Date: 2019-12-01 23:25:19 
  * @Last Modified by: Ted Yuen
- * @Last Modified time: 2020-01-13 22:00:23
+ * @Last Modified time: 2020-01-13 23:14:02
  * @Desc: 证券公司接口
  */
 import Router from 'koa-router';
 import Company from '../dbs/models/company'
+import { userId } from './utils/data'
 
 let router = new Router({ prefix: '/api/company' })
 
@@ -33,7 +34,7 @@ router.post('/addCompany', async (ctx) => {
     }
   } else {
     const company = new Company(Object.assign(ctx.request.body, {
-      userId: '5e183266eb10b6490dfee5f5'
+      userId: userId
     }));
     let result = await company.save();
     if (result) {
@@ -55,7 +56,7 @@ router.post('/addCompany', async (ctx) => {
  */
 router.get('/getAllCompanys', async ctx => {
   try {
-    var companyName = new RegExp(ctx.query.companyName || '', 'i');
+    let companyName = new RegExp(ctx.query.companyName || '', 'i');
     let result = await Company.find({
       $or: [{ "name": { $regex: companyName } }]
     })

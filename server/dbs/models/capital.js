@@ -2,7 +2,7 @@
  * @Author: Ted Yuen 
  * @Date: 2019-12-01 23:57:46 
  * @Last Modified by: Ted Yuen
- * @Last Modified time: 2019-12-01 23:58:36
+ * @Last Modified time: 2020-01-13 23:21:33
  * @Desc: 资本流向
  */
 import mongoose from 'mongoose'
@@ -34,13 +34,24 @@ const Capital = new Schema({
   // 资金转入/出日期
   createDate: {
     type: Date,
-    requrie: true
+    requrie: true,
+    default: Date.now
   },
   // 资金转入/出更新日期
   updateDate: {
     type: Date,
-    requrie: true
+    requrie: true,
+    default: Date.now
+  },
+  // 备注
+  remark: {
+    type: String,
+    require: true,
+    default: ''
   }
+},{
+  versionKey: false,
+  timestamps: { createdAt: 'createDate', updatedAt: 'updateDate' }
 })
 
 export default mongoose.model('Capital', Capital);
